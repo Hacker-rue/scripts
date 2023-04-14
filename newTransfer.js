@@ -4,9 +4,9 @@ const {startGateway, transferToken, newTransfer} = require('./lib/FabricGateway'
 const releId = "x509::/C=US/ST=North Carolina/O=Hyperledger/OU=admin/CN=org1admin::/C=US/ST=North Carolina/L=Durham/O=org1.example.com/CN=ca.org1.example.com"
 
 const channel = "mychannel"
-const tokenContract = "HLTst2"
-const amount = 123456789000
-const to = "0:e0ba35748c663038889e73d7a25d772092847d910970b8c04ea70adb1a6895a9"
+const tokenContract = "GTS"
+const amount = 1000000000
+const to = "0:4ffbcfe8c1a4e5ba6cbfb749d4804cc725fc60dd8e9963827e3852ed285f519c"
 
 async function main() {
     var _tokenContract
@@ -21,8 +21,12 @@ async function main() {
     const user = await enroll("user1", "user1pw")
     const gateway = await startGateway(user)
     const transactionTransfer = await transferToken(gateway, channel, _tokenContract, releId, _amount)
-    const transactionNewTransfer = await newTransfer(gateway, channel, _to, _amount, _tokenContract, transactionTransfer)
+
+    console.log(transactionTransfer)
+    const transactionNewTransfer = await newTransfer(gateway, channel, _to, _amount, _tokenContract, transactionTransfer, "", "test message")
     console.log(transactionNewTransfer)
+
+
 }
 
-main()
+main().catch(console.log)
